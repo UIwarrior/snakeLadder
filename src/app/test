@@ -1,0 +1,21 @@
+var a = [12,45,7,101,76]
+var b = [89, 992, 73, 72, 100];
+
+
+
+var c = []
+b.forEach((el,ind,self) => {
+    
+ 
+    if(a.indexOf(el) !== -1)
+    {
+      c.push(el)
+    }
+     
+})
+
+console.log(c);
+
+
+/////
+

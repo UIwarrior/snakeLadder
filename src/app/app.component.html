@@ -3,6 +3,10 @@
     <div class="row">
         <div *ngFor="let i of boardArray" class="col-md-1 boardBox" style="border:1px solid #ccc">
             <h2>{{i.number}}</h2>
+            <span style="color:red" *ngIf="i.snake.flag ===true">snake({{i.snake.destination}})</span>
+
+            <span style="color:blue" *ngIf="i.ladder.flag ===true">Ladder({{i.ladder.destination}})</span>
+
             <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background: #FF0000 " *ngIf="playerMarker1 == i.number"></span>
             <span style="width: 15px; height: 15px; margin:auto; display: inline-block; border: 1px solid gray; vertical-align: middle; border-radius: 2px; background:greenyellow " *ngIf="playerMarker2 == i.number"></span>
         </div>
