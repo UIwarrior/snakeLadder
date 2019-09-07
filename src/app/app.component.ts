@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit {
   diceNumber:number;  
   playerMarker1:number = 1;
   playerMarker2:number = 1;
+  playerRadio;
   snackArray:Array<{boardNumber:number,destinationNum:number}> =[]
   ladderArray:Array<{boardNumber:number,destinationNum:number}> =[]
   currentPlayer:any;
@@ -25,6 +27,8 @@ export class AppComponent implements OnInit {
   }]
 
   ngOnInit(){
+
+    //generating the borad numbers
     while(this.index > 0)
     {
       //console.log(this.index);
@@ -46,28 +50,47 @@ export class AppComponent implements OnInit {
   }
 
   generateSnake(){
-    for(let i=0; i<=10;i++)
+
+    //generating snacks and ladder array randomely but make sure snake ladder does not override 
+    for(let i=0; i<=15;i++)
     {
+      //generating position of the snake number after 20
       let _boardNumber = Math.floor(Math.random() * 100 + 20);
-      let  destNum = _boardNumber - (i +10);
+
+      //generating snake destination 
+      let _snakeDest = _boardNumber - (i +10);
       
+      //generating position of the ladder 
       let _ladderNumber =  _boardNumber - 5;
+
+      
       let _ladderDest =  _boardNumber + (i + 1) 
 
       if(_boardNumber < 100)
       {
-        this.snackArray.push({
-          boardNumber:_boardNumber,
-          destinationNum:destNum
-        })
+        if(_snakeDest > 1)
+        {
+
+          this.snackArray.push({
+            boardNumber:_boardNumber,
+            destinationNum:_snakeDest
+          })
+        }
+      
+       if(_ladderDest <=100 && _ladderDest != _boardNumber )
+       {
+
         this.ladderArray.push({
           boardNumber:_ladderNumber,
           destinationNum:_ladderDest
-        })  
+        })
+       }  
 
       }
     }
 
+
+     //pushing snacks and ladders in the board
     this.boardArray.forEach(element => {
         this.snackArray.forEach( element2 => {
           if(element.number === element2.boardNumber)
@@ -96,16 +119,9 @@ export class AppComponent implements OnInit {
     console.log(this.boardArray);
   }
 
-  generateLadder(){
-
-  }
-
-
-
   getRandomInt(min, max) {
    console.log(Math.floor(Math.random() * max + min));
 }
-
 
 
   rolledDice;
@@ -160,8 +176,27 @@ export class AppComponent implements OnInit {
     }) 
 
    }
-
+   this.checkIfGameComplete(this.playerMarker1,this.playerMarker2)
   }
+
+  checkIfGameComplete(player1,player2)
+  {
+    if(player1 == 100)
+    {
+      alert('Player 1 won the match');
+      this.playerMarker1 = 1;
+      this.playerMarker2 = 1;      
+    }
+
+
+    if(player2 == 100)
+    {
+      alert('Player 2 won the match');
+      this.playerMarker1 = 1;
+      this.playerMarker2 = 1;      
+    }
+  }
+
 
   selectPlayer(_param){
     if(_param == 1)
